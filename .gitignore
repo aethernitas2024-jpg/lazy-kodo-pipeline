@@ -1,0 +1,13 @@
+# Liste blanche : seuls le code et la doc sont versionnés.
+# Les rendus vidéo, voix, captures et données de jeu (≈10 Go) restent en local.
+*
+!*/
+!*.py
+!*.md
+!.gitignore
+
+__pycache__/
+*.bak_*
+
+# Extraction de fichiers du client de jeu : usage perso uniquement
+extract_music.py

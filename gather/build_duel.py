@@ -1,0 +1,197 @@
+# -*- coding: utf-8 -*-
+"""Short: Forever Open duel tournament for WoW Forever (build 1.60.1.70170, 02/10/2026).
+
+    py -3.11 build_bfd.py
+
+Quests, givers and rewards: Wowhead Forever (zone 719). Item spots: long-standing Wowhead comments.
+Backdrop: LoadScreenBlackFathomDeeps (FDID 131823, via wago.tools, unstretched to 4:3). Maps: BlackFathomDeeps1/2 world map art from the client, pins on its skull markers.
+"""
+import os
+import sys
+
+import build_prof as BP
+from build_prof import B, V, W, H, FPS, FF, GOLD, BONE, SICK, run, blank, save, title, pill
+from build_whimsy import line
+import build_hyjal as HY
+
+KIND = 'duel100k'
+HERE = os.path.dirname(os.path.abspath(__file__))
+WORK = os.path.join(HERE, 'build', KIND); os.makedirs(WORK, exist_ok=True)
+HY.WORK = WORK
+OUT = r'C:\Users\d2460n\Videos\World Of Warcraft\WoW Forever - the 100k dollar duel tournament (EN).mp4'
+GREY = (200, 200, 190, 235)
+NATURE = (140, 225, 110, 255)
+SHADOW = (190, 130, 255, 255)
+AMBER = (255, 190, 80, 255)
+RED = (235, 90, 80, 255)
+TEAL = (120, 230, 200, 255)
+GLOW = (60, 140, 60, 255)
+
+
+def head(im, kicker, big, col, glow, y=170, size=110):
+    y = title(im, kicker, y, 44, fill=GOLD, spacing=10, glow=(0, 0, 0, 0))
+    return title(im, big, y + 14, size, fill=col, spacing=6, glow=glow)
+
+
+def card(name, kicker, big, col, glow, icons, rows, size=110, isz=120, cy=900):
+    """Generic card: kicker + title, icon row, then lines [(text, colour, font size)]."""
+    def fn():
+        im = blank()
+        B.backdrop(im, cy, 800, 760, 185)
+        y = head(im, kicker, big, col, glow, y=300, size=size)
+        if icons:
+            y = HY.icon_row(im, icons, y + 60, int(isz * 1.3), gap=28)
+        for t, c, s in rows:
+            if t.startswith('>'):
+                s = int(s * 1.22)
+                y = pill(im, t[1:], y + 30, B.GEORGIA_I, s, c, h=s + 50)
+            else:
+                y = line(im, t, y + 16, int(s * 1.22), c, maxw=1000) - 6
+        return save(im, WORK, name)
+    return fn
+
+
+def outro_png():
+    im = blank()
+    B.backdrop(im, 860, 740, 520, 185)
+    y = title(im, 'LIKE + FOLLOW', 660, 100, fill=BONE, spacing=8)
+    y = line(im, 'more WoW Forever dungeon guides', y + 40, 50, SICK)
+    line(im, 'beta files  ·  may still change', y + 16, 40, GREY)
+    return save(im, WORK, 'outro')
+
+
+from build_whimsy import map_card
+import build_cozy as C
+C.WORK = WORK
+BLUE = (110, 170, 255, 255)
+PIN = (255, 190, 80, 255)
+HORDE = (235, 90, 80, 255)
+ALLI = (110, 170, 255, 255)
+SEA = (90, 200, 220, 255)
+SEAG = (20, 90, 110, 255)
+
+
+def mcard(name, kicker, big, col, glow, zone, pts, rows, zoom=None, mw=760, size=110):
+    """Card with a zone/dungeon map and pins, then lines."""
+    def fn():
+        im = blank()
+        B.backdrop(im, 900, 800, 760, 185)
+        y = head(im, kicker, big, col, glow, y=250, size=size)
+        y = map_card(im, C.zmap(zone, pts, mw, zoom=zoom), y + 40)
+        for t, c, s in rows:
+            y = line(im, t, y + 16, int(s * 1.15), c, maxw=1000) - 6
+        return save(im, WORK, name)
+    return fn
+
+
+import tooltip as TT
+GOLDC = (255, 210, 90, 255)
+GOLDG = (200, 140, 40, 255)
+HG = (150, 40, 30, 255)
+
+
+def tcard(name, kicker, big, col, glow, items, rows, size=100, tsize=34, twidth=860):
+    def fn():
+        im = blank()
+        B.backdrop(im, 900, 820, 800, 185)
+        y = head(im, kicker, big, col, glow, y=230, size=size)
+        y = TT.paste(im, items, y + 30, width=twidth, size=tsize, gap=18)
+        for t, c, s in rows:
+            y = line(im, t, y + 6, int(s * 1.15), c, maxw=1000) - 6
+        return save(im, WORK, name)
+    return fn
+
+
+DUEL = [
+    (card('hook', 'WOW FOREVER  ·  THE FOREVER OPEN', '$100,000 DUELS', GOLDC, GOLDG, [277254, 282720, 216619],
+          [('a level 30 dueling tournament', BONE, 50), ('October 17 + 18', AMBER, 54), ('everything you need to know', SICK, 46)], size=120, isz=140),
+     'darkspear', 'One hundred thousand dollars for level thirty duels. The Forever Open happens on October seventeenth and eighteenth. Here is everything you need to know.', 7.0),
+    (card('origin', 'HOW IT STARTED', '$50K, THEN DOUBLED', GOLDC, GOLDG, [],
+          [('organizer: TipsOut', AMBER, 48), ('with Xaryu + Esfand', BONE, 46), ('announced with $50,000', BONE, 46),
+           ('then TimTheTatman added $50,000', SICK, 46), ('"for the love of Classic WoW"', GREY, 42)], size=120),
+     'darkspear', 'It started at fifty thousand dollars, announced by TipsOut with Xaryu and Esfand. Then TimTheTatman added fifty thousand more, for the love of Classic WoW.', 8.0),
+    (card('format', 'THE FORMAT', 'HORDE  ·  LEVEL 30', HORDE, HG, [],
+          [('PvP realm rules', BONE, 48), ('Horde side only', BONE, 48), ('every class can enter', BONE, 46),
+           ('open tournament, sign-ups on Raider.io', BONE, 42), ('4,000 sign-ups: closed early, Oct 2', AMBER, 46)], size=120),
+     'darkspear', 'The format: Horde side, level thirty, PvP rules. It was open to everyone, and four thousand players signed up, so registration closed early on October second.', 8.0),
+    (card('prize', 'THE PRIZE SPLIT', 'WHO GETS PAID', GOLDC, GOLDG, [],
+          [('champion: $50,000', GOLDC, 60), ('+ "Death\'s Duelist" title', BONE, 44),
+           ('best player of each class: $5,555', AMBER, 48), ('9 classes x $5,555', BONE, 44),
+           ("winner's class: goes to the #2 of that class", GREY, 38)], size=120),
+     'darkspear', "The champion takes fifty thousand dollars. The other fifty thousand is split between the best player of each class: five thousand five hundred fifty five dollars each.", 8.0),
+    (tcard('bow', 'BANNED  ·  OCTOBER 6', "TRUTHSEEKER'S BOW", RED, HG, [277254],
+           [('the best bow in the beta: banned', BONE, 44), ('then on Oct 8 Blizzard raised it to level 40', AMBER, 40),
+            ('so nobody at 30 can use it anyway', SICK, 42)], size=100),
+     'darkspear', "Banned: Truthseeker's Bow, the best bow in the beta. Funny detail: two days later, Blizzard raised it to level forty, so nobody at thirty can equip it anymore.", 8.0),
+    (tcard('cons', 'BANNED CONSUMABLES', 'NO PET ARMIES', RED, HG, [282720, 216619],
+           [('all non-equippable pet summons', BONE, 42), ('+ Flash Bomb', BONE, 42)], size=110, tsize=30),
+     'darkspear', 'Also banned: Spider Swarm and every other pet you summon from a bag, Student Fodder, and the Flash Bomb.', 7.5),
+    (card('items', 'MORE RULES', 'BANNED  vs  ALLOWED', AMBER, GOLDG, [7375, 10646, 3456],
+          [('banned: Green Whelp Armor', RED, 44), ('banned: Goblin Sapper Charge', RED, 44),
+           ('allowed: Dog Whistle + pet trinkets', SICK, 44), ('transmog must be off', BONE, 42)], size=110, isz=130),
+     'darkspear', "Green Whelp Armor and Goblin Sapper Charges are banned too. But equippable pet items like the Dog Whistle from Scarlet Monastery are allowed.", 7.5),
+    (card('rules', 'DUEL ETIQUETTE', 'THE OPENER RULE', AMBER, GOLDG, [],
+          [('stealth classes always get the opener', BONE, 44), ('no moving, no traps until it lands', BONE, 42),
+           ('pre-HoTs banned', RED, 46), ('Power Word: Shield before: allowed', SICK, 44), ('only your own class buffs', BONE, 42)], size=110),
+     'darkspear', 'Duel etiquette: stealth classes always get a free opener, no traps or moving until it lands. Healing over time before the duel is banned, but a priest shield is allowed.', 8.5),
+    (card('signups', 'EARLY SIGN-UPS  ·  2,876 PLAYERS', 'WHO SIGNED UP', HORDE, HG, [],
+          [('Priest: the most popular', AMBER, 48), ('Hunter ~500  ·  Shaman ~429', BONE, 44), ('Warlock ~280  ·  Warrior ~188', BONE, 44),
+           ('Mage: lower than expected', GREY, 40), ('races: Undead 33%  ·  Orc 31%  ·  Troll 21%', BONE, 40)], size=110),
+     'darkspear', 'In the early sign ups, priest was the most popular class, then hunters and shamans. Undead led the races, ahead of orcs and trolls.', 8.0),
+    (card('outro', 'OCTOBER 17 + 18', 'WHICH CLASS WINS?', GOLDC, GOLDG, [277254, 282720, 3456],
+          [('streamed by Esfand + Xaryu', BONE, 44), ('tell me your pick in the comments', AMBER, 46), ('follow for the results', SICK, 46)], size=110, isz=120),
+     'darkspear', 'So, which class wins the hundred thousand dollars? Tell me your pick in the comments, and follow for the results.', 6.5),
+]
+
+
+PLAN = DUEL
+MUSIC = 'warrior'
+
+
+def main():
+    files, tl, say, t = [], [], [], 0.0
+    for i, (fn, art, text, mind) in enumerate(PLAN):
+        wav, vd = V.line(V.readable(text))
+        dur = max(mind, BP.LEAD + vd + BP.TAIL)
+        files.append(BP.shot(WORK, i, art, dur, seed=34 if i in (0, len(PLAN) - 1) else i * 37 + 23,
+                             bright=0.0 if i == 0 else -0.14))
+        say.append((t + BP.LEAD, wav)); tl.append((t, dur)); t += dur
+    total = t
+
+    frame = BP.frame_png(WORK)
+    finals = []
+    for i, (fn, *_ ) in enumerate(PLAN):
+        a, d = tl[i]
+        card_png = fn()
+        fi, fo = (0.0, 0.15) if i == 0 else ((0.35, 0.0) if i == len(PLAN) - 1 else (0.25, 0.16))
+        ch = '[2:v]format=rgba'
+        if fi: ch += f',fade=t=in:st=0.1:d={fi}:alpha=1'
+        if fo: ch += f',fade=t=out:st={max(0, d - fo):.3f}:d={fo}:alpha=1'
+        tail = f',fade=t=out:st={d - 0.8:.3f}:d=0.8' if i == len(PLAN) - 1 else ''
+        out = os.path.join(WORK, f'final_{i:02d}.mp4')
+        run([FF, '-v', 'error', '-y', '-i', files[i],
+             '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', frame,
+             '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', card_png,
+             '-filter_complex', f'[0:v]setsar=1[b];[1:v]format=rgba[f];[b][f]overlay=format=auto[bf];{ch}[c];'
+                                f'[bf][c]overlay=format=auto{tail},format=yuv420p,setsar=1[v]',
+             '-map', '[v]', '-an', '-t', f'{d:.3f}', '-r', str(FPS),
+             '-c:v', 'h264_nvenc', '-preset', 'p7', '-tune', 'hq', '-rc', 'vbr', '-cq', '22', '-b:v', '0',
+             '-maxrate', '13M', '-bufsize', '26M', out])
+        finals.append(out)
+
+    lst = os.path.join(WORK, 'list.txt')
+    open(lst, 'w').write(''.join(f"file '{p.replace(os.sep, '/')}'\n" for p in finals))
+    base = os.path.join(WORK, 'base.mp4')
+    run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', base])
+    audio = BP.mix_audio(WORK, MUSIC, total, say)
+    run([FF, '-v', 'error', '-y', '-i', base, '-i', audio, '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
+         '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', '-t', f'{total:.3f}', OUT])
+    for i, (a, d) in enumerate(tl):
+        print(f'{i} {a:6.2f} +{d:5.2f}')
+    import watermark
+    watermark.apply(OUT, center=(540, 1730))
+    print('OK', OUT, round(total, 2))
+
+
+if __name__ == '__main__':
+    main()

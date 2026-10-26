@@ -1,0 +1,43 @@
+GOLDC = (255, 210, 90, 255)
+GOLDG = (200, 140, 40, 255)
+EPIC = (190, 120, 255, 255)
+EPICG = (100, 40, 170, 255)
+
+END = [
+    (card('hook', 'WOW FOREVER  ·  WHAT THE DEVS SAID', 'THE ENDGAME', EPIC, EPICG, [280904, 18423, 280930],
+          [('raids, dungeons, PvP, legacy', BONE, 48), ('everything from the latest interviews', AMBER, 44),
+           ('+ what the game files add', SICK, 44)], size=130, isz=150),
+     'emeralddream', 'What will you do at level sixty in WoW Forever? Here is everything the developers revealed in their latest interviews and podcast, plus what the game files add.', 7.5),
+    (card('calendar', 'THE ROADMAP', 'KEY DATES', GOLDC, GOLDG, [],
+          [('Nov 4: launch', BONE, 52), ('Dec 9: first 3 raids open', AMBER, 50), ('Winter: Forever Hardcore', BONE, 46),
+           ('Spring 2027: 2 raids, 2 dungeons, new zone', BONE, 40), ('+ a legendary questline', SICK, 42),
+           ('Summer 2027: a revamped iconic raid + a new one', BONE, 38)], size=120),
+     'emeralddream', 'The key dates: launch on November fourth, the first three raids on December ninth, Hardcore in winter. Spring brings two raids, two dungeons, a new zone and a legendary questline. Summer, a revamped iconic raid.', 9.5),
+    (card('tier1', 'RAID TIER 1  ·  DECEMBER 9', '3 RAIDS AT ONCE', EPIC, EPICG, [280904, 280930, 18423],
+          [('Barrow Deeps: 10 players', BONE, 48), ('Hyjal Summit: 20 players', BONE, 48), ("Onyxia's Lair: 40 players", BONE, 48),
+           ('"every tier: a 10-man AND a 20-man"', AMBER, 42), ('the 40-man is the exception', GREY, 40)], size=120, isz=130),
+     'emeralddream', "Tier one, December ninth: Barrow Deeps for ten players, Hyjal Summit for twenty, and Onyxia's Lair for forty. Lead designer Tim Jones promised a ten and a twenty player raid every tier. The forty is the exception.", 9.5),
+    (card('rules', 'HOW RAIDING WORKS', 'NO SHORTCUTS', RED, (150, 40, 30, 255), [],
+          [('no flex raid sizes', BONE, 48), ('no heroic difficulty', BONE, 48), ('no automated raid finder', BONE, 48),
+           ('no GDKP', RED, 54), ('build your own group', SICK, 46)], size=120),
+     'emeralddream', 'And the rules: fixed raid sizes, no heroic mode, no automated raid finder, and no GDKP. You build your own group.', 8.0),
+    (card('attune', 'ATTUNEMENTS ARE BACK', "ONYXIA'S KEY", GOLDC, GOLDG, [18423],
+          [('the classic Onyxia chain is still required', BONE, 42), ('not account-wide at launch', AMBER, 44),
+           ('Hyjal + Barrow Deeps: extra steps', BONE, 42), ('"to get the full experience"', GREY, 40)], size=120, isz=150),
+     'emeralddream', "Attunements are back. Onyxia still needs the long classic quest chain, and it is not account wide at launch. Hyjal and Barrow Deeps also have extra steps to get the full experience.", 8.5),
+    (card('dungeons', 'LEVEL 60 DUNGEONS', 'BIGGER THAN BRD', EPIC, EPICG, [],
+          [('the pitch grew: 4, then 6, then 9 new dungeons', BONE, 40), ('Blackmaw Hold: bigger than Blackrock Depths', AMBER, 42),
+           ('in the files: Alcaz Prison', SICK, 44), ("and The Shaper's Terrace", SICK, 44), ('no heroic dungeons either', GREY, 40)], size=110),
+     'emeralddream', "Dungeons: the original pitch was four new dungeons, then six, then nine. Blackmaw Hold is bigger than Blackrock Depths, and the files already list Alcaz Prison and The Shaper's Terrace at level sixty.", 9.0),
+    (card('pvp', 'PVP SEASONS', 'RANK 1 TO 14', HORDE, (150, 40, 30, 255), [],
+          [('the classic rank system is back', BONE, 44), ('rank 2: PvP trinket  ·  rank 11: mounts', BONE, 40),
+           ('rank 14: epic weapons', AMBER, 46), ('honor buys a blue + an epic set', BONE, 42), ('weekly season tasks: 3 Legacy Points', SICK, 42)], size=120),
+     'emeralddream', 'PvP: the classic ranks one to fourteen are back, with a new reward at each rank, up to epic weapons at rank fourteen. Honor buys a blue and an epic set, and each season gives three Legacy Points.', 9.0),
+    (card('legacy', 'THE LONG GAME', 'LEGACY POINTS', GOLDC, GOLDG, [],
+          [('account progress across seasons', BONE, 44), ('earned from achievements + PvP seasons', BONE, 42),
+           ('beta testers already got 16', AMBER, 46), ('spent on account-wide perks', BONE, 42)], size=120),
+     'emeralddream', 'And the long game: Legacy Points, an account progression that carries over seasons. Beta testers already received sixteen.', 7.5),
+    (card('outro', 'DECEMBER 9', 'WHICH RAID FIRST?', EPIC, EPICG, [280904, 18423, 280930],
+          [('Barrow Deeps, Hyjal or Onyxia?', AMBER, 46), ('tell me in the comments', BONE, 46), ('follow for every Forever update', SICK, 44)], size=110, isz=120),
+     'emeralddream', 'So, which raid are you clearing first on December ninth? Tell me in the comments, and follow for every Forever update.', 6.5),
+]
